@@ -3,9 +3,8 @@ const url = "http://localhost:8081/wegone/api"
 async function buscarOperacoes(){
     try{
         const resposta = await fetch(url);
-        if(!resposta.ok){
-            throw new Error("Erro ao encontrar as operações!"+ resposta.status);
-        }
+
+        if(!resposta.ok) throw new Error("Erro ao encontrar as operações!"+ resposta.status);
 
         const operacoes = await resposta.json();
         return operacoes;
@@ -18,9 +17,8 @@ async function buscarOperacoes(){
 async function buscarOperacaoPorNome(titulo){
     try{
         const resposta = await fetch(`${url}/titulo/${titulo}`);
-        if(!resposta.ok){
-            throw new Error("Erro ao encontrar a operação!");
-        }
+
+        if(!resposta.ok) throw new Error("Erro ao encontrar a operação!");
 
         const operacao = await resposta.json();
         return operacao;
@@ -33,9 +31,8 @@ async function buscarOperacaoPorNome(titulo){
 async function buscarOperacaoPorId(id){
     try{
         const resposta = await fetch(`${url}/${id}`);
-        if(!resposta.ok){
-            throw new Error("Erro ao encontrar a operação!");
-        }
+
+        if(!resposta.ok) throw new Error("Erro ao encontrar a operação!");
 
         const operacao = await resposta.json();
         return operacao;
@@ -59,9 +56,7 @@ async function salvarOperacao(operacao, metodo){
             body: JSON.stringify(operacao)
         });
 
-        if(!resposta.ok){
-            throw new Error("Erro ao salvar a operação!");
-        }
+        if(!resposta.ok) throw new Error("Erro ao salvar a operação!");
 
         mensagem.textContent = 'Operação salva com sucesso!';
 
@@ -82,9 +77,7 @@ async function excluirOperacao(operacao){
             },
         });
 
-        if(!resposta.ok){
-            throw new Error("Erro ao excluir a operação!");
-        }
+        if(!resposta.ok) throw new Error("Erro ao excluir a operação!");
 
         mensagem.textContent = 'Operação excluida com sucesso!';
 
