@@ -38,6 +38,8 @@ entrar.addEventListener('click', async () => {
         icones.appendChild(mostrar);
         icones.appendChild(editar);
         icones.appendChild(excluir);
+
+        itemLista.appendChild(icones);
     })
 })
 
