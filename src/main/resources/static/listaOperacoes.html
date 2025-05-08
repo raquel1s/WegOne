@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link href="https://unpkg.com/tailwindcss@^2.0/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <title>Title</title>
+    <title>Operações</title>
 </head>
 <body class="text-white">
 <header style="background-color: #00579D" class="flex flex-row items-center justify-between p-5">
@@ -22,22 +22,27 @@
         </div>
     </div>
 </header>
-<main class="text-black">
-    <div id="lista-operacoes" class="flex justify-center">
-        <div  id="painel-acoes" style="background-color: #00579D" class="flex items-center justify-between pl-5 pr-20 w-7xl">
+<main class="flex justify-center w-96 m-auto">
+    <div id="lista-operacoes" class="ml-20 mr-20">
+        <div  id="painel-acoes" style="background-color: #00579D" class="flex items-center mt-20 pl-5 pr-20 gap-20 justify-between">
             <div class="flex gap-16">
                 <div id="adicionar" class="flex">
-                    <img src="Imagens/Maiszinho.png" alt="Icon Vetor">
+                    <i class="fa-solid fa-plus"></i>
                     <a>ADICIONAR</a>
                 </div>
                 <div id="pesquisar" class="flex">
-                    <img src="Imagens/Lupa.png" alt="Icon Vetor">
+                    <i class="fa-solid fa-magnifying-glass"></i>
                     <input placeholder="Pesquisar">
                 </div>
             </div>
             <div id="todos" class="flex items-center">
-                <img src="Imagens/chevron-down-solid.svg" alt="Icon Vetor">
-                <a>TODOS</a>
+                <select style="background-color: #00579D" class="pl-0 p-3 focus:outline-none focus:border-none">
+                    <option value = "portugues" style="background-color: #f1f1f1" class="text-black">Manual de Operação</option>
+                    <option value = "ingles" style="background-color: #f1f1f1" class="text-black">Procedimento de Segurança</option>
+                    <option value = "espanhol" style="background-color: #f1f1f1" class="text-black">Manutenção e Reparos</option>
+                    <option value = "espanhol" style="background-color: #f1f1f1" class="text-black">Testes e Diagnóstico</option>
+                    <option value = "espanhol" style="background-color: #f1f1f1" class="text-black">Manual de Conduta e Operações Setoriais</option>
+                </select>
             </div>
         </div>
     </div>
