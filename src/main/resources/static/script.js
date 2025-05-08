@@ -1,5 +1,46 @@
 const url = "http://localhost:8081/wegone/api"
 
+const entrar = document.getElementById('btnEntrar');
+
+entrar.addEventListener('click', async () => {
+    const operacoes = await buscarOperacoes();
+
+    operacoes.forEach(operacao => {
+        //div para cada item da lista
+        const itemLista = document.createElement('div');
+
+        //div para colocar o titulo e categoria
+        const itemTitulo = document.createElement('div');
+        const categoria = document.createElement('h2');
+        const titulo = document.createElement('h3');
+
+        categoria.textContent = operacao.categoria;
+        titulo.textContent = operacao.titulo;
+
+        itemTitulo.appendChild(categoria);
+        itemTitulo.appendChild(titulo);
+
+        itemLista.appendChild(itemTitulo);
+
+        //div para colocar os icones
+        const icones = document.createElement('div');
+
+        const mostrar = document.createElement('a');
+        mostrar.innerHTML = '<i class="fa-solid fa-maximize"></i>';
+
+        const editar = document.createElement('a');
+        editar.innerHTML = '<i class="fa-solid fa-pen"></i>';
+
+        const excluir = document.createElement('a');
+        exluir.innerHTML = '<i class="fa-solid fa-trash"></i>';
+
+        // adicionando os icones na div
+        icones.appendChild(mostrar);
+        icones.appendChild(editar);
+        icones.appendChild(excluir);
+    })
+})
+
 async function buscarOperacoes(){
     try{
         const resposta = await fetch(url);

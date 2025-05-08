@@ -16,6 +16,8 @@ public class Operacao {
     @NotBlank
     private String titulo;
     @NotBlank
+    private String categoria;
+    @NotBlank
     private String descricao;
 
     public Operacao() {
@@ -45,4 +47,11 @@ public class Operacao {
         this.descricao = descricao;
     }
 
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
 }
