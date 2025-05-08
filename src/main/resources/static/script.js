@@ -49,7 +49,7 @@ async function salvarOperacao(operacao, metodo){
 
     try{
         const resposta = fetch(url, {
-            method: `${metodo}`, // se clicar no adicionar vai enviar POST se for no editar vai enviar PUT
+            method: metodo, // se clicar no adicionar vai enviar POST se for no editar vai enviar PUT
             headers: {
                 'Content-Type': 'application/json'
             },
