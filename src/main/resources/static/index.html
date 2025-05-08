@@ -6,7 +6,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <title>WegOne</title>
 </head>
-<body class="text-white">
+<body style="background-image: url(Imagens/backgroudIndex.jpg)"
+      class="text-white h-screen bg-cover bg-center bg-fixed truncate ">
+<div style="background-color: rgba(0, 87, 157, 0.4)" class="absolute inset-0 ">
     <header style="background-color: #00579D" class="flex flex-row items-center justify-between p-5">
         <div id="logo">
             <a href="index.html"><img src="./LogoWeg.png" class="w-20"></a>
@@ -18,13 +20,27 @@
             <div>
                 <i class="fa-solid fa-globe"></i>
                 <select style="background-color: #00579D" class="pl-0 p-3 focus:outline-none focus:border-none">
-                    <option value = "portugues" style="background-color: #f1f1f1" class="text-black">PORTUGUÊS</option>
-                    <option value = "ingles" style="background-color: #f1f1f1" class="text-black">INGLÊS</option>
-                    <option value = "espanhol" style="background-color: #f1f1f1" class="text-black">ESPANHOL</option>
+                    <option value="portugues" style="background-color: #f1f1f1" class="text-black">PORTUGUÊS</option>
+                    <option value="ingles" style="background-color: #f1f1f1" class="text-black">INGLÊS</option>
+                    <option value="espanhol" style="background-color: #f1f1f1" class="text-black">ESPANHOL</option>
                 </select>
             </div>
         </div>
     </header>
+
+    <section class="flex justify-center items-center min-h-screen flex-col text-center w-full" >
+        <div class="flex gap-2">
+            <h1 class="text-6xl font-bold">WEG</h1>
+            <h3 class="text-6xl font-light">One</h3>
+        </div>
+
+        <div class="w-full max-w-4xl mx-auto">
+            <p class="pt-4 text-2xl ">Simplificando o acesso ao conhecimento, garantindo a eficiência e a segurança em cada operação.</p>
+        </div>
+
+    </section>
+
     <script src="./script.js"></script>
+</div>
 </body>
 </html>
