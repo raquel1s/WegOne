@@ -4,30 +4,53 @@ const entrar = document.getElementById('btnEntrar');
 
 const adicionar = document.getElementById('adicionar');
 
-const enviar = document.getElementById('enviar');
+const formulario = document.getElementById('formulario');
 
 const sobreposicao = document.getElementById('sobreposicao');
+
+let modoEdicao = false;
+
 adicionar.addEventListener('click', () => {
     // Remove classe hidden e deixa o painel de cadastro visível
     sobreposicao.classList.remove("hidden");
+    const titulo = document.getElementById('tituloTelaCadastro');
+    titulo.textContent = "Cadastrar";
+    formulario.reset();
 })
 
-enviar.addEventListener('click', async () =>  {
-   // Oculta painel de cadastro
-   sobreposicao.classList.add('hidden');
+formulario.addEventListener('submit', async(e) => {
+    e.preventDefault();
+    sobreposicao.classList.add('hidden');
 
-    // Limpa os campos do formulário
-    document.getElementById('titulo').value = "";
-    document.getElementById('categoria').value = "";
-    document.getElementById('descricao').value = "";
+    const titulo = document.getElementById('titulo').value;
+    const categoria = document.getElementById('categoria').value;
+    const descricao = document.getElementById('descricao').value;
+
+    const operacao = {
+        titulo: titulo,
+        categoria: categoria,
+        descricao: descricao
+    }
+
+    const metodo = modoEdicao ? 'PUT' : 'POST';
+
+    const sucesso = await salvarOperacao(operacao, metodo);
+
+    if (sucesso) {
+        formulario.reset();
+        window.location.reload();
+    }
 })
 
-entrar.addEventListener('click', async () => {
+const listagem = document.getElementById('listagem');
+
+window.addEventListener('load', async () => {
     const operacoes = await buscarOperacoes();
 
     operacoes.forEach(operacao => {
         //div para cada item da lista
         const itemLista = document.createElement('div');
+        itemLista.classList.add('flex', 'flex-row', 'justify-between', 'items-center');
 
         //div para colocar o titulo e categoria
         const itemTitulo = document.createElement('div');
@@ -60,6 +83,15 @@ entrar.addEventListener('click', async () => {
         icones.appendChild(excluir);
 
         itemLista.appendChild(icones);
+        listagem.appendChild(itemLista);
+
+        editar.addEventListener('click', () => {
+            modoEdicao = true;
+
+            sobreposicao.classList.remove("hidden");
+            const titulo = document.getElementById('tituloTelaCadastro');
+            titulo.textContent = "Editar";
+        })
     })
 })
 
@@ -105,7 +137,7 @@ async function buscarOperacaoPorId(id){
     }
 }
 
-// ira receber um objeto já
+// vou ter que separar o put do post, e chamar os dados para a tela de editar
 async function salvarOperacao(operacao, metodo){
 
     const mensagem = document.createElement('p');

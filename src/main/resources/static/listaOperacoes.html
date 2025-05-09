@@ -23,7 +23,7 @@
     </div>
 </header>
 <main>
-    <div id="lista-operacoes" class="flex justify-center text-sm lg:text-md">
+    <div id="lista-operacoes" class="flex flex-col justify-center items-center text-sm lg:text-md">
         <div  id="painel-acoes" style="background-color: #00579D" class="flex p-5 mt-20">
             <div class="flex gap-16 sm:gap-8">
                 <div id="adicionar" class="flex items-center gap-2 cursor-pointer">
@@ -46,34 +46,38 @@
                 </select>
             </div>
         </div>
+        <div id="listagem" class="text-black">
+
+        </div>
     </div>
 
     <div id="sobreposicao" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40 hidden">
         <div id="painel-cadastrar" style="color: #00579D" class="bg-white rounded-lg p-10 w-full max-w-2xl flex flex-col items-center gap-6 shadow-lg">
-            <h1 class="font-bold text-2xl">CADASTRAR</h1>
-
-            <div class="flex gap-10 w-full justify-between">
-                <div class="flex flex-col w-1/2">
-                    <h2 style="color: #0090C5" class="text-sm font-semibold mb-1">TÍTULO</h2>
-                    <input id="titulo" placeholder="Insira um título..." type="text" class="border outline-none py-1 rounded w-full pl-2">
+            <h1 class="font-bold text-2xl" id="tituloTelaCadastro"></h1>
+            <form id="formulario" >
+                <div class="flex gap-10 w-full justify-between">
+                    <div class="flex flex-col w-1/2">
+                        <h2 style="color: #0090C5" class="text-sm font-semibold mb-1">TÍTULO</h2>
+                        <input id="titulo" placeholder="Insira um título..." type="text" class="border outline-none py-1 rounded w-full pl-2">
+                    </div>
+                    <div class="flex flex-col">
+                        <h2 style="color: #0090C5" class="text-sm font-semibold mb-1">CATEGORIA</h2>
+                        <select id="categoria" class="text-black lg:text-base font-semibold outline-none pr-2 border py-1 rounded pl-2">
+                            <option value="" disabled selected>Selecione uma categoria</option>
+                            <option value="manual_operacao">Manual de Operação</option>
+                            <option value="procedimento_seguranca">Procedimento de Segurança</option>
+                            <option value="manutencao_reparos">Manutenção e Reparos</option>
+                            <option value="testes_diagnostico">Testes e Diagnóstico</option>
+                            <option value="conduta_setorial">Manual de Conduta e Operações Setoriais</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="flex flex-col">
-                    <h2 style="color: #0090C5" class="text-sm font-semibold mb-1">CATEGORIA</h2>
-                    <select id="categoria" class="text-black lg:text-base font-semibold outline-none pr-2 border py-1 rounded pl-2">
-                        <option value="" disabled selected>Selecione uma categoria</option>
-                        <option value="manual_operacao">Manual de Operação</option>
-                        <option value="procedimento_seguranca">Procedimento de Segurança</option>
-                        <option value="manutencao_reparos">Manutenção e Reparos</option>
-                        <option value="testes_diagnostico">Testes e Diagnóstico</option>
-                        <option value="conduta_setorial">Manual de Conduta e Operações Setoriais</option>
-                    </select>
+                <div class="self-start w-full">
+                    <h2 style="color: #0090C5" class="text-sm font-semibold mb-1">DESCRIÇÃO</h2>
+                    <textarea id="descricao" rows="5" class="border py-1 rounded w-full outline-none pl-2 resize-none p-2"></textarea>
                 </div>
-            </div>
-            <div class="self-start w-full">
-                <h2 style="color: #0090C5" class="text-sm font-semibold mb-1">DESCRIÇÃO</h2>
-                <textarea id="descricao" rows="5" class="border py-1 rounded w-full outline-none pl-2 resize-none p-2"></textarea>
-            </div>
-            <button id="enviar" style="background-color: #00579D" class="text-white px-5 py-2 rounded">ENVIAR</button>
+                <button id="enviar" style="background-color: #00579D" class="text-white px-5 py-2 rounded" type="submit">ENVIAR</button>
+            </form>
         </div>
     </div>
 </main>
