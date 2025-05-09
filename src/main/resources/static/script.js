@@ -2,6 +2,12 @@ const url = "http://localhost:8081/wegone/api"
 
 const entrar = document.getElementById('btnEntrar');
 
+const adicionar = document.getElementById('adicionar');
+
+adicionar.addEventListener('click', () => {
+
+})
+
 entrar.addEventListener('click', async () => {
     const operacoes = await buscarOperacoes();
 
