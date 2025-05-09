@@ -15,8 +15,14 @@ public class OperacoesController {
     @Autowired
     private OperacaoRepository operacaoRepository;
 
-    @RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT})
+    @PostMapping
     public @ResponseBody Operacao salvarOperacao(@Valid @RequestBody Operacao operacao){
+        return operacaoRepository.save(operacao);
+    }
+
+    @PutMapping(path = "/{id}")
+    public @ResponseBody Operacao editarOperacao(@PathVariable int id, @Valid @RequestBody Operacao operacao){
+        operacao.setId(id);
         return operacaoRepository.save(operacao);
     }
 

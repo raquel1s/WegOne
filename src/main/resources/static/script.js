@@ -1,7 +1,5 @@
 const url = "http://localhost:8081/wegone/api"
 
-const entrar = document.getElementById('btnEntrar');
-
 const adicionar = document.getElementById('adicionar');
 
 const formulario = document.getElementById('formulario');
@@ -27,6 +25,7 @@ formulario.addEventListener('submit', async(e) => {
     const descricao = document.getElementById('descricao').value;
 
     const operacao = {
+        id: formulario.dataset.operacaoId,
         titulo: titulo,
         categoria: categoria,
         descricao: descricao
@@ -34,12 +33,10 @@ formulario.addEventListener('submit', async(e) => {
 
     const metodo = modoEdicao ? 'PUT' : 'POST';
 
-    const sucesso = await salvarOperacao(operacao, metodo);
+    await salvarOperacao(operacao, metodo);
 
-    if (sucesso) {
-        formulario.reset();
-        window.location.reload();
-    }
+    window.location.reload();
+    formulario.reset();
 })
 
 const listagem = document.getElementById('listagem');
@@ -91,6 +88,17 @@ window.addEventListener('load', async () => {
             sobreposicao.classList.remove("hidden");
             const titulo = document.getElementById('tituloTelaCadastro');
             titulo.textContent = "Editar";
+
+            document.getElementById('titulo').value = operacao.titulo;
+            document.getElementById('categoria').value = operacao.categoria;
+            document.getElementById('descricao').value = operacao.descricao;
+
+            formulario.dataset.operacaoId = operacao.id;
+        })
+
+        excluir.addEventListener('click', () => {
+            excluirOperacao(operacao);
+            window.location.reload();
         })
     })
 })
@@ -142,8 +150,10 @@ async function salvarOperacao(operacao, metodo){
 
     const mensagem = document.createElement('p');
 
+    const endpoint = metodo === 'PUT' ? `${url}/${operacao.id}` : url;
+
     try{
-        const resposta = fetch(url, {
+        const resposta = await fetch(endpoint, {
             method: metodo, // se clicar no adicionar vai enviar POST se for no editar vai enviar PUT
             headers: {
                 'Content-Type': 'application/json'
