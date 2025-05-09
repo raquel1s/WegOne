@@ -4,8 +4,22 @@ const entrar = document.getElementById('btnEntrar');
 
 const adicionar = document.getElementById('adicionar');
 
-adicionar.addEventListener('click', () => {
+const enviar = document.getElementById('enviar');
 
+const sobreposicao = document.getElementById('sobreposicao');
+adicionar.addEventListener('click', () => {
+    // Remove classe hidden e deixa o painel de cadastro visível
+    sobreposicao.classList.remove("hidden");
+})
+
+enviar.addEventListener('click', async () =>  {
+   // Oculta painel de cadastro
+   sobreposicao.classList.add('hidden');
+
+    // Limpa os campos do formulário
+    document.getElementById('titulo').value = "";
+    document.getElementById('categoria').value = "";
+    document.getElementById('descricao').value = "";
 })
 
 entrar.addEventListener('click', async () => {
@@ -38,7 +52,7 @@ entrar.addEventListener('click', async () => {
         editar.innerHTML = '<i class="fa-solid fa-pen"></i>';
 
         const excluir = document.createElement('a');
-        exluir.innerHTML = '<i class="fa-solid fa-trash"></i>';
+        excluir.innerHTML = '<i class="fa-solid fa-trash"></i>';
 
         // adicionando os icones na div
         icones.appendChild(mostrar);
@@ -50,14 +64,14 @@ entrar.addEventListener('click', async () => {
 })
 
 async function buscarOperacoes(){
-    try{
+    try {
         const resposta = await fetch(url);
 
         if(!resposta.ok) throw new Error("Erro ao encontrar as operações!"+ resposta.status);
 
         const operacoes = await resposta.json();
         return operacoes;
-    }catch (error){
+    } catch (error){
         const mensagemErro = document.createElement('p');
         mensagemErro.textContent = error.message;
     }
