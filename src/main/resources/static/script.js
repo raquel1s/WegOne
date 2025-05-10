@@ -32,7 +32,15 @@ buscar.addEventListener('keyup', async (event) => {
 
         buscar.value = '';
         listagem.innerHTML = "";
-        await carregarLista(Array.isArray(operacaoPesquisada) ? operacaoPesquisada : [operacaoPesquisada]);
+
+        if(!operacaoPesquisada || (Array.isArray(operacaoPesquisada) && operacaoPesquisada.length === 0)){
+            const mensagemErro = document.createElement('p');
+            mensagemErro.textContent = 'Operação não Encontrada!'
+            listagem.innerHTML = '';
+            listagem.appendChild(mensagemErro);
+        }else{
+            await carregarLista(Array.isArray(operacaoPesquisada) ? operacaoPesquisada : [operacaoPesquisada]);
+        }
     }
 });
 
