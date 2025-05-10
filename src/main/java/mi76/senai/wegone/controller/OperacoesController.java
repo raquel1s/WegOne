@@ -41,6 +41,11 @@ public class OperacoesController {
         return operacaoRepository.findByTituloContainingIgnoreCase(titulo);
     }
 
+    @GetMapping(path = "/categoria/{categoria}")
+    public Iterable<Operacao> obterOperacoesCategoria(@PathVariable String categoria){
+        return operacaoRepository.findByCategoriaContainingIgnoreCase(categoria);
+    }
+
     @DeleteMapping(path = "/{id}")
     public void deletarOperacaoId(@PathVariable int id){
         operacaoRepository.deleteById(id);

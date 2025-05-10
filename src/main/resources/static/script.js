@@ -174,6 +174,20 @@ async function buscarOperacaoPorNome(titulo){
     }
 }
 
+async function buscarOperacaoPorCategoria(categoria){
+    try{
+        const resposta = await fetch(`${url}/categoria/${categoria}`);
+
+        if(!resposta.ok) throw new Error("Erro ao encontrar a operação!");
+
+        const operacao = await resposta.json();
+        return operacao;
+    }catch (error){
+        const mensagemErro = document.createElement('p');
+        mensagemErro.textContent = error.message;
+    }
+}
+
 async function buscarOperacaoPorId(id){
     try{
         const resposta = await fetch(`${url}/${id}`);
