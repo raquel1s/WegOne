@@ -8,12 +8,34 @@ const sobreposicao = document.getElementById('sobreposicao');
 
 let modoEdicao = false;
 
+const buscar = document.getElementById('buscar');
+
+const listagem = document.getElementById('listagem');
+
+async function atualizarLista(){
+    listagem.innerHTML = '';
+    const operacoes = await buscarOperacoes();
+    await carregarLista(operacoes);
+}
+
+buscar.addEventListener('keyup', async (event) => {
+    if (event.key === 'Enter') {
+        const itemPesquisado = buscar.value;
+
+        const operacaoPesquisada = await buscarOperacaoPorNome(itemPesquisado);
+
+        buscar.value = '';
+
+        listagem.innerHTML = "";
+        await carregarLista(Array.isArray(operacaoPesquisada) ? operacaoPesquisada : [operacaoPesquisada]);
+    }
+});
+
 adicionar.addEventListener('click', () => {
     // Remove classe hidden e deixa o painel de cadastro visível
     sobreposicao.classList.remove("hidden");
     const titulo = document.getElementById('tituloTelaCadastro');
     titulo.textContent = "Cadastrar";
-    formulario.reset();
 })
 
 formulario.addEventListener('submit', async(e) => {
@@ -34,16 +56,14 @@ formulario.addEventListener('submit', async(e) => {
     const metodo = modoEdicao ? 'PUT' : 'POST';
 
     await salvarOperacao(operacao, metodo);
-
-    window.location.reload();
+    modoEdicao = false;
     formulario.reset();
+    formulario.removeAttribute('data-operacao-id');
+
+    await atualizarLista();
 })
 
-const listagem = document.getElementById('listagem');
-
-window.addEventListener('load', async () => {
-    const operacoes = await buscarOperacoes();
-
+async function carregarLista(operacoes){
     operacoes.forEach(operacao => {
         //div para cada item da lista
         const itemLista = document.createElement('div');
@@ -96,11 +116,17 @@ window.addEventListener('load', async () => {
             formulario.dataset.operacaoId = operacao.id;
         })
 
-        excluir.addEventListener('click', () => {
-            excluirOperacao(operacao);
-            window.location.reload();
+        excluir.addEventListener('click', async () => {
+            await excluirOperacao(operacao);
+            await atualizarLista();
         })
     })
+}
+
+window.addEventListener('load', async () => {
+    const operacoes = await buscarOperacoes();
+
+    await carregarLista(operacoes);
 })
 
 async function buscarOperacoes(){
