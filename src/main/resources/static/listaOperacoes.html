@@ -58,11 +58,11 @@
                 <div class="flex gap-10 w-full justify-between">
                     <div class="flex flex-col w-1/2">
                         <h2 style="color: #0090C5" class="text-sm font-semibold mb-1">TÍTULO</h2>
-                        <input id="titulo" placeholder="Insira um título..." type="text" class="border outline-none py-1 rounded w-full pl-2 text-black">
+                        <input id="titulo" placeholder="Insira um título..." type="text" class="border outline-none py-1 rounded w-full pl-2 text-black" required>
                     </div>
                     <div class="flex flex-col">
                         <h2 style="color: #0090C5" class="text-sm font-semibold mb-1">CATEGORIA</h2>
-                        <select id="categoria" class="text-black lg:text-base font-semibold outline-none pr-2 border py-1 rounded pl-2">
+                        <select id="categoria" class="text-black lg:text-base font-semibold outline-none pr-2 border py-1 rounded pl-2" required>
                             <option value="" disabled selected>Selecione uma categoria</option>
                             <option value="manual_operacao">Manual de Operação</option>
                             <option value="procedimento_seguranca">Procedimento de Segurança</option>
@@ -74,7 +74,7 @@
                 </div>
                 <div class="self-start w-full mb-10 mt-5">
                     <h2 style="color: #0090C5" class="text-sm font-semibold mb-1">DESCRIÇÃO</h2>
-                    <textarea id="descricao" rows="5" class="border py-1 rounded w-full outline-none pl-2 resize-none p-2 text-black"></textarea>
+                    <textarea id="descricao" rows="5" class="border py-1 rounded w-full outline-none pl-2 resize-none p-2 text-black" required></textarea>
                 </div>
                 <div class="flex justify-center ">
                     <button id="enviar" style="background-color: #00579D" class="text-white px-5 py-2 rounded" type="submit">ENVIAR</button>

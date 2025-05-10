@@ -128,7 +128,6 @@ async function carregarLista(operacao){
 
 window.addEventListener('load', async () => {
     const operacoes = await buscarOperacoes();
-
     await carregarLista(operacoes);
 })
 
