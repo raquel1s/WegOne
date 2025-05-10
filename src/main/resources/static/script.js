@@ -68,61 +68,63 @@ formulario.addEventListener('submit', async(e) => {
     await atualizarLista();
 })
 
-async function carregarLista(operacao){
-    //div para cada item da lista
-    const itemLista = document.createElement('div');
-    itemLista.classList.add('flex', 'flex-row', 'justify-between', 'items-center');
+async function carregarLista(operacoes){
+    operacoes.forEach(operacao => {
+        //div para cada item da lista
+        const itemLista = document.createElement('div');
+        itemLista.classList.add('flex', 'flex-row', 'justify-between', 'items-center');
 
-    //div para colocar o titulo e categoria
-    const itemTitulo = document.createElement('div');
-    const categoriaElemento = document.createElement('h2');
-    const tituloElemento = document.createElement('h3');
+        //div para colocar o titulo e categoria
+        const itemTitulo = document.createElement('div');
+        const categoriaElemento = document.createElement('h2');
+        const tituloElemento = document.createElement('h3');
 
-    categoriaElemento.textContent = operacao.categoria;
-    tituloElemento.textContent = operacao.titulo;
+        categoriaElemento.textContent = operacao.categoria;
+        tituloElemento.textContent = operacao.titulo;
 
-    itemTitulo.appendChild(categoriaElemento);
-    itemTitulo.appendChild(tituloElemento);
+        itemTitulo.appendChild(categoriaElemento);
+        itemTitulo.appendChild(tituloElemento);
 
-    itemLista.appendChild(itemTitulo);
+        itemLista.appendChild(itemTitulo);
 
-    //div para colocar os icones
-    const icones = document.createElement('div');
+        //div para colocar os icones
+        const icones = document.createElement('div');
 
-    const mostrar = document.createElement('a');
-    mostrar.innerHTML = '<i class="fa-solid fa-maximize"></i>';
+        const mostrar = document.createElement('a');
+        mostrar.innerHTML = '<i class="fa-solid fa-maximize"></i>';
 
-    const editar = document.createElement('a');
-    editar.innerHTML = '<i class="fa-solid fa-pen"></i>';
+        const editar = document.createElement('a');
+        editar.innerHTML = '<i class="fa-solid fa-pen"></i>';
 
-    const excluir = document.createElement('a');
-    excluir.innerHTML = '<i class="fa-solid fa-trash"></i>';
+        const excluir = document.createElement('a');
+        excluir.innerHTML = '<i class="fa-solid fa-trash"></i>';
 
-    // adicionando os icones na div
-    icones.appendChild(mostrar);
-    icones.appendChild(editar);
-    icones.appendChild(excluir);
+        // adicionando os icones na div
+        icones.appendChild(mostrar);
+        icones.appendChild(editar);
+        icones.appendChild(excluir);
 
-    itemLista.appendChild(icones);
-    listagem.appendChild(itemLista);
+        itemLista.appendChild(icones);
+        listagem.appendChild(itemLista);
 
-    editar.addEventListener('click', () => {
-        modoEdicao = true;
+        editar.addEventListener('click', () => {
+            modoEdicao = true;
 
-        sobreposicao.classList.remove("hidden");
-        const titulo = document.getElementById('tituloTelaCadastro');
-        titulo.textContent = "Editar";
+            sobreposicao.classList.remove("hidden");
+            const titulo = document.getElementById('tituloTelaCadastro');
+            titulo.textContent = "Editar";
 
-        document.getElementById('titulo').value = operacao.titulo;
-        document.getElementById('categoria').value = operacao.categoria;
-        document.getElementById('descricao').value = operacao.descricao;
+            document.getElementById('titulo').value = operacao.titulo;
+            document.getElementById('categoria').value = operacao.categoria;
+            document.getElementById('descricao').value = operacao.descricao;
 
-        formulario.dataset.operacaoId = operacao.id;
-    })
+            formulario.dataset.operacaoId = operacao.id;
+        })
 
-    excluir.addEventListener('click', async () => {
-        await excluirOperacao(operacao);
-        await atualizarLista();
+        excluir.addEventListener('click', async () => {
+            await excluirOperacao(operacao);
+            await atualizarLista();
+        })
     })
 }
 
