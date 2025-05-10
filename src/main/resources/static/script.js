@@ -22,10 +22,15 @@ buscar.addEventListener('keyup', async (event) => {
     if (event.key === 'Enter') {
         const itemPesquisado = buscar.value;
 
-        const operacaoPesquisada = await buscarOperacaoPorNome(itemPesquisado);
+        let operacaoPesquisada;
+
+        if(!isNaN(itemPesquisado)){
+            operacaoPesquisada = await buscarOperacaoPorId(itemPesquisado);
+        }else{
+            operacaoPesquisada = await buscarOperacaoPorNome(itemPesquisado);
+        }
 
         buscar.value = '';
-
         listagem.innerHTML = "";
         await carregarLista(Array.isArray(operacaoPesquisada) ? operacaoPesquisada : [operacaoPesquisada]);
     }
