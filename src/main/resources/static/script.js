@@ -225,3 +225,9 @@ async function excluirOperacao(operacao){
     }
 }
 
+// fechar painel-cadastrar
+document.getElementById('fecharPainel').addEventListener('click', () => {
+    document.getElementById('sobreposicao').classList.add('hidden');
+});
+
+
