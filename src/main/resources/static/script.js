@@ -86,7 +86,9 @@ async function carregarLista(operacoes){
 
         //div para colocar o titulo e categoria
         const itemTitulo = document.createElement('div');
+
         const categoriaElemento = document.createElement('h2');
+        
         const tituloElemento = document.createElement('h3');
 
         categoriaElemento.textContent = operacao.categoria;
