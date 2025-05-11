@@ -24,7 +24,7 @@
 </header>
 <main class="flex items-center justify-center">
     <div id="lista-operacoes" class="flex flex-col justify-center text-sm lg:text-md">
-        <div  id="painel-acoes" style="background-color: #00579D" class="flex p-5 mt-20">
+        <div  id="painel-acoes" style="background-color: #00579D" class="flex p-5 mt-16 sticky top-0 z-10">
             <div class="flex gap-16 sm:gap-8">
                 <div id="adicionar" class="flex items-center gap-2 cursor-pointer">
                     <i class="fa-solid fa-plus"></i>
@@ -46,7 +46,7 @@
                 </select>
             </div>
         </div>
-        <div id="listagem" class="text-black shadow-xl">
+        <div id="listagem" class="text-black shadow-xl overflow-y-auto" style="max-height: 60vh">
 
         </div>
     </div>
