@@ -25,6 +25,7 @@ const botaoVoltar = document.getElementById('botaoVoltar');
 const mensagemErro = document.getElementById('mensagemErro');
 
 async function atualizarLista(){
+    filtragem.value = 'todos';
     botaoVoltar.classList.add('hidden');
     mensagemErro.classList.add('hidden');
     listagem.innerHTML = '';
@@ -34,6 +35,7 @@ async function atualizarLista(){
 
 buscar.addEventListener('keyup', async (event) => {
     if (event.key === 'Enter') {
+        filtragem.value = 'todos';
         const itemPesquisado = buscar.value;
 
         let operacaoPesquisada;
