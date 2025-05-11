@@ -22,8 +22,8 @@
         </div>
     </div>
 </header>
-<main>
-    <div id="lista-operacoes" class="flex flex-col justify-center items-center text-sm lg:text-md">
+<main class="flex items-center justify-center">
+    <div id="lista-operacoes" class="flex flex-col justify-center text-sm lg:text-md">
         <div  id="painel-acoes" style="background-color: #00579D" class="flex p-5 mt-20">
             <div class="flex gap-16 sm:gap-8">
                 <div id="adicionar" class="flex items-center gap-2 cursor-pointer">
@@ -46,7 +46,7 @@
                 </select>
             </div>
         </div>
-        <div id="listagem" class="text-black">
+        <div id="listagem" class="text-black px-10 py-2 shadow-xl">
 
         </div>
     </div>
@@ -86,12 +86,22 @@
         </div>
     </div>
 
-    <div id="sobreposicao-mostrar" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div id="sobreposicaoMostrar" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
         <div id="mostrar" style="color: #00579D" class="relative bg-white rounded-lg py-16 px-10 w-full max-w-2xl flex flex-col shadow-lg">
             <button id="fecharMostrar" style="color: #00579D" class="absolute top-4 right-8 text-4xl font-bold">&times;</button>
             <h1 id="tituloMostrar" style="color: #0090C5" class="flex mb-1 text-2xl font-bold"></h1>
             <h2 id="categoriaMostrar" style="color: black" class="flex mb-10 text-xl font-semibold"></h2>
             <p id="descricaoMostrar" style="color: black" class="flex text-sm"></p>
+        </div>
+    </div>
+
+    <div id="sobreposicaoExcluir" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div id="excluir" class="bg-white rounded-lg py-6 px-8 w-full max-w-2xl text-black flex flex-col items-center gap-6">
+            <p class="font-semibold">Você tem certeza que deseja excluir essa operação?</p>
+            <div class="flex gap-4">
+                <button id="botaoExcluir" style="background-color: #00579D" class="text-white text-xs px-6 py-2 rounded-xl">EXCLUIR</button>
+                <button id="botaoCancelar" style="background-color: #BDBDBD" class="text-xs px-6 py-2 rounded-xl">CANCELAR</button>
+            </div>
         </div>
     </div>
 </main>

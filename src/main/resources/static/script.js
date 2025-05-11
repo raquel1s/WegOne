@@ -6,7 +6,9 @@ const formulario = document.getElementById('formulario');
 
 const sobreposicao = document.getElementById('sobreposicao');
 
-const sobreposicaoMostrar = document.getElementById('sobreposicao-mostrar');
+const sobreposicaoMostrar = document.getElementById('sobreposicaoMostrar');
+
+const sobreposicaoExcluir = document.getElementById('sobreposicaoExcluir');
 
 let modoEdicao = false;
 
@@ -52,7 +54,7 @@ adicionar.addEventListener('click', () => {
     // Remove classe hidden e deixa o painel de cadastro visível
     sobreposicao.classList.remove("hidden");
     const titulo = document.getElementById('tituloTelaCadastro');
-    titulo.textContent = "Cadastrar";
+    titulo.textContent = "CADASTRAR";
 })
 
 formulario.addEventListener('submit', async(e) => {
@@ -78,6 +80,11 @@ formulario.addEventListener('submit', async(e) => {
     formulario.removeAttribute('data-operacao-id');
 
     await atualizarLista();
+
+    // fechar painel-cadastrar
+    document.getElementById('fecharPainel').addEventListener('click', () => {
+        document.getElementById('sobreposicao').classList.add('hidden');
+    });
 })
 
 async function carregarLista(operacoes){
@@ -90,10 +97,14 @@ async function carregarLista(operacoes){
         const itemTitulo = document.createElement('div');
 
         const categoriaElemento = document.createElement('h2');
+        categoriaElemento.classList.add('text-lg', 'font-bold');
 
         const tituloElemento = document.createElement('h3');
+        tituloElemento.classList.add('text-base');
 
         categoriaElemento.textContent = operacao.categoria;
+        categoriaElemento.style.color = '#0090C5';
+
         tituloElemento.textContent = operacao.titulo;
 
         itemTitulo.appendChild(categoriaElemento);
@@ -103,15 +114,17 @@ async function carregarLista(operacoes){
 
         //div para colocar os icones
         const icones = document.createElement('div');
+        icones.style.color = '#00579D';
+        icones.classList.add('flex', 'flew-row', 'gap-6');
 
         const mostrar = document.createElement('a');
-        mostrar.innerHTML = '<i class="fa-solid fa-maximize"></i>';
+        mostrar.innerHTML = '<i class="fa-solid fa-maximize" style="font-size: 1.6em"></i>';
 
         const editar = document.createElement('a');
-        editar.innerHTML = '<i class="fa-solid fa-pen"></i>';
+        editar.innerHTML = '<i class="fa-solid fa-pen" style="font-size: 1.6em"></i>';
 
         const excluir = document.createElement('a');
-        excluir.innerHTML = '<i class="fa-solid fa-trash"></i>';
+        excluir.innerHTML = '<i class="fa-solid fa-trash" style="font-size: 1.6em"></i>';
 
         // adicionando os icones na div
         icones.appendChild(mostrar);
@@ -126,7 +139,7 @@ async function carregarLista(operacoes){
 
             sobreposicao.classList.remove("hidden");
             const titulo = document.getElementById('tituloTelaCadastro');
-            titulo.textContent = "Editar";
+            titulo.textContent = "EDITAR";
 
             document.getElementById('titulo').value = operacao.titulo;
             document.getElementById('categoria').value = operacao.categoria;
@@ -135,9 +148,18 @@ async function carregarLista(operacoes){
             formulario.dataset.operacaoId = operacao.id;
         })
 
-        excluir.addEventListener('click', async () => {
-            await excluirOperacao(operacao);
-            await atualizarLista();
+        excluir.addEventListener('click', () => {
+            sobreposicaoExcluir.classList.remove('hidden');
+
+            document.getElementById('botaoExcluir').addEventListener('click', async () => {
+                await excluirOperacao(operacao);
+                await atualizarLista();
+                sobreposicaoExcluir.classList.add('hidden');
+            });
+
+            document.getElementById('botaoCancelar').addEventListener('click', () => {
+                sobreposicaoExcluir.classList.add('hidden');
+            })
         })
 
         mostrar.addEventListener('click', async () => {
@@ -149,6 +171,11 @@ async function carregarLista(operacoes){
             descricao.textContent = operacao.descricao;
 
             sobreposicaoMostrar.classList.remove('hidden');
+
+            // fechar mostrar
+            document.getElementById('fecharMostrar').addEventListener('click', () => {
+                document.getElementById('sobreposicaoMostrar').classList.add('hidden');
+            })
         })
     })
 }
@@ -265,15 +292,5 @@ async function excluirOperacao(operacao){
         mensagem.textContent = error.message;
     }
 }
-
-// fechar painel-cadastrar
-document.getElementById('fecharPainel').addEventListener('click', () => {
-    document.getElementById('sobreposicao').classList.add('hidden');
-});
-
-// fechar mostrar
-document.getElementById('fecharMostrar').addEventListener('click', () => {
-    document.getElementById('sobreposicao-mostrar').classList.add('hidden');
-})
 
 
