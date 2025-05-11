@@ -120,6 +120,7 @@ formulario.addEventListener('submit', async(e) => {
 // fechar painel-cadastrar
 document.getElementById('fecharPainel').addEventListener('click', () => {
     document.getElementById('sobreposicao').classList.add('hidden');
+    formulario.reset();
 });
 
 async function carregarLista(operacoes){
