@@ -18,11 +18,38 @@ const listagem = document.getElementById('listagem');
 
 const botaoExluir = document.getElementById('botaoExcluir');
 
+const filtragem = document.getElementById('filtragem');
+
 async function atualizarLista(){
     listagem.innerHTML = '';
     const operacoes = await buscarOperacoes();
     await carregarLista(operacoes);
 }
+
+filtragem.addEventListener('change', async (event) => {
+    const categoriaPesquisada = filtragem.value;
+
+    let operacaoPesquisada;
+
+    listagem.innerHTML = "";
+
+    if (categoriaPesquisada === "todos") {
+        window.location.href = 'listaOperacoes.html';
+    } else {
+        operacaoPesquisada = await buscarOperacaoPorCategoria(categoriaPesquisada);
+    }
+
+    if(!operacaoPesquisada || (Array.isArray(operacaoPesquisada) && operacaoPesquisada.length === 0)){
+        const mensagemErro = document.createElement('p');
+        mensagemErro.textContent = 'Categoria não Encontrada!';
+        mensagemErro.classList.add('mt-6', 'font-semibold', 'text-red-500', 'text-lg', 'text-center');
+        listagem.classList.add('shadow-none');
+        listagem.innerHTML = '';
+        listagem.appendChild(mensagemErro);
+    }else{
+        await carregarLista(Array.isArray(operacaoPesquisada) ? operacaoPesquisada : [operacaoPesquisada]);
+    }
+})
 
 buscar.addEventListener('keyup', async (event) => {
     if (event.key === 'Enter') {
