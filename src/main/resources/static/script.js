@@ -16,6 +16,8 @@ const buscar = document.getElementById('buscar');
 
 const listagem = document.getElementById('listagem');
 
+const botaoExluir = document.getElementById('botaoExcluir');
+
 async function atualizarLista(){
     listagem.innerHTML = '';
     const operacoes = await buscarOperacoes();
@@ -80,12 +82,13 @@ formulario.addEventListener('submit', async(e) => {
     formulario.removeAttribute('data-operacao-id');
 
     await atualizarLista();
-
-    // fechar painel-cadastrar
-    document.getElementById('fecharPainel').addEventListener('click', () => {
-        document.getElementById('sobreposicao').classList.add('hidden');
-    });
 })
+
+// fechar painel-cadastrar
+document.getElementById('fecharPainel').addEventListener('click', () => {
+    document.getElementById('sobreposicao').classList.add('hidden');
+
+});
 
 async function carregarLista(operacoes){
     operacoes.forEach(operacao => {
@@ -115,16 +118,16 @@ async function carregarLista(operacoes){
         //div para colocar os icones
         const icones = document.createElement('div');
         icones.style.color = '#00579D';
-        icones.classList.add('flex', 'flew-row', 'gap-6');
+        icones.classList.add('flex', 'flex-row', 'gap-6');
 
         const mostrar = document.createElement('a');
-        mostrar.innerHTML = '<i class="fa-solid fa-maximize" style="font-size: 1.6em"></i>';
+        mostrar.innerHTML = '<i class="fa-solid fa-maximize cursor-pointer" style="font-size: 1.6em"></i>';
 
         const editar = document.createElement('a');
-        editar.innerHTML = '<i class="fa-solid fa-pen" style="font-size: 1.6em"></i>';
+        editar.innerHTML = '<i class="fa-solid fa-pen cursor-pointer" style="font-size: 1.6em"></i>';
 
         const excluir = document.createElement('a');
-        excluir.innerHTML = '<i class="fa-solid fa-trash" style="font-size: 1.6em"></i>';
+        excluir.innerHTML = '<i class="fa-solid fa-trash cursor-pointer" style="font-size: 1.6em"></i>';
 
         // adicionando os icones na div
         icones.appendChild(mostrar);
@@ -150,16 +153,7 @@ async function carregarLista(operacoes){
 
         excluir.addEventListener('click', () => {
             sobreposicaoExcluir.classList.remove('hidden');
-
-            document.getElementById('botaoExcluir').addEventListener('click', async () => {
-                await excluirOperacao(operacao);
-                await atualizarLista();
-                sobreposicaoExcluir.classList.add('hidden');
-            });
-
-            document.getElementById('botaoCancelar').addEventListener('click', () => {
-                sobreposicaoExcluir.classList.add('hidden');
-            })
+            botaoExluir.dataset.operacaoId = operacao.id;
         })
 
         mostrar.addEventListener('click', async () => {
@@ -179,6 +173,17 @@ async function carregarLista(operacoes){
         })
     })
 }
+
+botaoExluir.addEventListener('click', async () => {
+    const operacaoId = botaoExluir.dataset.operacaoId;
+    await excluirOperacao(operacaoId);
+    await atualizarLista();
+    sobreposicaoExcluir.classList.add('hidden');
+});
+
+document.getElementById('botaoCancelar').addEventListener('click', () => {
+    sobreposicaoExcluir.classList.add('hidden');
+})
 
 window.addEventListener('load', async () => {
     const operacoes = await buscarOperacoes();
@@ -272,12 +277,12 @@ async function salvarOperacao(operacao, metodo){
     }
 }
 
-async function excluirOperacao(operacao){
+async function excluirOperacao(operacaoId){
 
     const mensagem = document.createElement('p');
 
     try{
-        const resposta = await fetch(`${url}/${operacao.id}`, {
+        const resposta = await fetch(`${url}/${operacaoId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -292,5 +297,3 @@ async function excluirOperacao(operacao){
         mensagem.textContent = error.message;
     }
 }
-
-
