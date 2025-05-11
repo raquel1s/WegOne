@@ -6,6 +6,8 @@ const formulario = document.getElementById('formulario');
 
 const sobreposicao = document.getElementById('sobreposicao');
 
+const sobreposicaoMostrar = document.getElementById('sobreposicao-mostrar');
+
 let modoEdicao = false;
 
 const buscar = document.getElementById('buscar');
@@ -88,7 +90,7 @@ async function carregarLista(operacoes){
         const itemTitulo = document.createElement('div');
 
         const categoriaElemento = document.createElement('h2');
-        
+
         const tituloElemento = document.createElement('h3');
 
         categoriaElemento.textContent = operacao.categoria;
@@ -136,6 +138,17 @@ async function carregarLista(operacoes){
         excluir.addEventListener('click', async () => {
             await excluirOperacao(operacao);
             await atualizarLista();
+        })
+
+        mostrar.addEventListener('click', async () => {
+            const titulo = document.getElementById('tituloMostrar');
+            titulo.textContent = operacao.titulo;
+            const categoria = document.getElementById('categoriaMostrar');
+            categoria.textContent = operacao.categoria;
+            const descricao = document.getElementById('descricaoMostrar');
+            descricao.textContent = operacao.descricao;
+
+            sobreposicaoMostrar.classList.remove('hidden');
         })
     })
 }
@@ -257,5 +270,10 @@ async function excluirOperacao(operacao){
 document.getElementById('fecharPainel').addEventListener('click', () => {
     document.getElementById('sobreposicao').classList.add('hidden');
 });
+
+// fechar mostrar
+document.getElementById('fecharMostrar').addEventListener('click', () => {
+    document.getElementById('sobreposicao-mostrar').classList.add('hidden');
+})
 
 
