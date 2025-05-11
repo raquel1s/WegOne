@@ -18,6 +18,8 @@ const listagem = document.getElementById('listagem');
 
 const botaoExluir = document.getElementById('botaoExcluir');
 
+const botaoVoltar = document.getElementById('botaoVoltar');
+
 async function atualizarLista(){
     listagem.innerHTML = '';
     const operacoes = await buscarOperacoes();
@@ -51,14 +53,13 @@ buscar.addEventListener('keyup', async (event) => {
         }
 
         // Botão Voltar
-        const botaoVoltar = document.getElementById('botaoVoltar');
         botaoVoltar.classList.remove('hidden');
-
-        botaoVoltar.addEventListener('click', () => {
-            window.location.href = 'listaOperacoes.html';
-        })
     }
 });
+
+botaoVoltar.addEventListener('click', () => {
+    window.location.href = 'listaOperacoes.html';
+})
 
 adicionar.addEventListener('click', () => {
     // Remove classe hidden e deixa o painel de cadastro visível
