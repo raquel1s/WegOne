@@ -22,36 +22,15 @@ const filtragem = document.getElementById('filtragem');
 
 const botaoVoltar = document.getElementById('botaoVoltar');
 
+const mensagemErro = document.getElementById('mensagemErro');
+
 async function atualizarLista(){
+    botaoVoltar.classList.add('hidden');
+    mensagemErro.classList.add('hidden');
     listagem.innerHTML = '';
     const operacoes = await buscarOperacoes();
     await carregarLista(operacoes);
 }
-
-filtragem.addEventListener('change', async (event) => {
-    const categoriaPesquisada = filtragem.value;
-
-    let operacaoPesquisada;
-
-    listagem.innerHTML = "";
-
-    if (categoriaPesquisada === "todos") {
-        window.location.href = 'listaOperacoes.html';
-    } else {
-        operacaoPesquisada = await buscarOperacaoPorCategoria(categoriaPesquisada);
-    }
-
-    if(!operacaoPesquisada || (Array.isArray(operacaoPesquisada) && operacaoPesquisada.length === 0)){
-        const mensagemErro = document.createElement('p');
-        mensagemErro.textContent = 'Categoria não Encontrada!';
-        mensagemErro.classList.add('mt-6', 'font-semibold', 'text-red-500', 'text-lg', 'text-center');
-        listagem.classList.add('shadow-none');
-        listagem.innerHTML = '';
-        listagem.appendChild(mensagemErro);
-    }else{
-        await carregarLista(Array.isArray(operacaoPesquisada) ? operacaoPesquisada : [operacaoPesquisada]);
-    }
-})
 
 buscar.addEventListener('keyup', async (event) => {
     if (event.key === 'Enter') {
@@ -66,10 +45,14 @@ buscar.addEventListener('keyup', async (event) => {
         }
 
         buscar.value = '';
-        listagem.innerHTML = "";
+        listagem.innerHTML = '';
+
+        mensagemErro.textContent = '';
+        mensagemErro.classList.add('hidden');
 
         if(!operacaoPesquisada || (Array.isArray(operacaoPesquisada) && operacaoPesquisada.length === 0)){
-            mensagemErro();
+            mensagemErro.textContent = 'Operação não Encontrada!';
+            mensagemErro.classList.remove('hidden');
         }else{
             await carregarLista(Array.isArray(operacaoPesquisada) ? operacaoPesquisada : [operacaoPesquisada]);
         }
@@ -79,34 +62,28 @@ buscar.addEventListener('keyup', async (event) => {
     }
 });
 
-function mensagemErro(){
-    const mensagemErro = document.createElement('p');
-    mensagemErro.textContent = 'Operação não Encontrada!';
-    mensagemErro.classList.add('mt-6', 'font-semibold', 'text-red-500', 'text-lg', 'text-center');
-    listagem.classList.add('shadow-none');
+filtragem.addEventListener('change', async (event) => {
+    const categoriaPesquisada = filtragem.value;
+    const resultado = await buscarOperacaoPorCategoria(categoriaPesquisada);
+
     listagem.innerHTML = '';
-    listagem.appendChild(mensagemErro);
-}
+    mensagemErro.textContent = '';
+    mensagemErro.classList.add('hidden');
+    botaoVoltar.classList.add('hidden');
 
-const categoriaSelecionada = document.getElementById('categoriaSelecionada');
-
-categoriaSelecionada.addEventListener('change', async () => {
-
-    const resultado = await buscarOperacaoPorCategoria(categoriaSelecionada.value);
-
-    if(categoriaSelecionada.value === 'Todos'){
+    if(filtragem.value === 'todos'){
         await atualizarLista();
     }else if(resultado.length === 0){
-        mensagemErro();
+        mensagemErro.textContent = 'Categoria não Encontrada!';
+        mensagemErro.classList.remove('hidden');
+
     }else{
-        console.log(resultado);
-        listagem.innerHTML = "";
         await carregarLista(resultado);
     }
 })
 
-botaoVoltar.addEventListener('click', () => {
-    window.location.href = 'listaOperacoes.html';
+botaoVoltar.addEventListener('click', async() => {
+    await atualizarLista();
 })
 
 adicionar.addEventListener('click', () => {
@@ -144,7 +121,6 @@ formulario.addEventListener('submit', async(e) => {
 // fechar painel-cadastrar
 document.getElementById('fecharPainel').addEventListener('click', () => {
     document.getElementById('sobreposicao').classList.add('hidden');
-
 });
 
 async function carregarLista(operacoes){
