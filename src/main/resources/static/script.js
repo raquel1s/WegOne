@@ -69,12 +69,7 @@ buscar.addEventListener('keyup', async (event) => {
         listagem.innerHTML = "";
 
         if(!operacaoPesquisada || (Array.isArray(operacaoPesquisada) && operacaoPesquisada.length === 0)){
-            const mensagemErro = document.createElement('p');
-            mensagemErro.textContent = 'Operação não Encontrada!';
-            mensagemErro.classList.add('mt-6', 'font-semibold', 'text-red-500', 'text-lg', 'text-center');
-            listagem.classList.add('shadow-none');
-            listagem.innerHTML = '';
-            listagem.appendChild(mensagemErro);
+            mensagemErro();
         }else{
             await carregarLista(Array.isArray(operacaoPesquisada) ? operacaoPesquisada : [operacaoPesquisada]);
         }
@@ -83,6 +78,32 @@ buscar.addEventListener('keyup', async (event) => {
         botaoVoltar.classList.remove('hidden');
     }
 });
+
+function mensagemErro(){
+    const mensagemErro = document.createElement('p');
+    mensagemErro.textContent = 'Operação não Encontrada!';
+    mensagemErro.classList.add('mt-6', 'font-semibold', 'text-red-500', 'text-lg', 'text-center');
+    listagem.classList.add('shadow-none');
+    listagem.innerHTML = '';
+    listagem.appendChild(mensagemErro);
+}
+
+const categoriaSelecionada = document.getElementById('categoriaSelecionada');
+
+categoriaSelecionada.addEventListener('change', async () => {
+
+    const resultado = await buscarOperacaoPorCategoria(categoriaSelecionada.value);
+
+    if(categoriaSelecionada.value === 'Todos'){
+        await atualizarLista();
+    }else if(resultado.length === 0){
+        mensagemErro();
+    }else{
+        console.log(resultado);
+        listagem.innerHTML = "";
+        await carregarLista(resultado);
+    }
+})
 
 botaoVoltar.addEventListener('click', () => {
     window.location.href = 'listaOperacoes.html';
@@ -264,6 +285,7 @@ async function buscarOperacaoPorCategoria(categoria){
         if(!resposta.ok) throw new Error("Erro ao encontrar a operação!");
 
         const operacao = await resposta.json();
+        console.log(operacao);
         return operacao;
     }catch (error){
         const mensagemErro = document.createElement('p');
