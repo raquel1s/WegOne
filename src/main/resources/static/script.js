@@ -42,7 +42,8 @@ buscar.addEventListener('keyup', async (event) => {
         if(!operacaoPesquisada || (Array.isArray(operacaoPesquisada) && operacaoPesquisada.length === 0)){
             const mensagemErro = document.createElement('p');
             mensagemErro.textContent = 'Operação não Encontrada!';
-            mensagemErro.classList.add('mt-6', 'font-semibold', 'text-red-500', 'text-lg');
+            mensagemErro.classList.add('mt-6', 'font-semibold', 'text-red-500', 'text-lg', 'text-center');
+            listagem.classList.add('shadow-none');
             listagem.innerHTML = '';
             listagem.appendChild(mensagemErro);
         }else{
