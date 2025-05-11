@@ -91,7 +91,7 @@ async function carregarLista(operacoes){
     operacoes.forEach(operacao => {
         //div para cada item da lista
         const itemLista = document.createElement('div');
-        itemLista.classList.add('flex', 'flex-row', 'justify-between', 'items-center');
+        itemLista.classList.add('flex', 'flex-row', 'justify-between', 'items-center', 'pb-2', 'shadow-md', 'px-10', 'pt-3');
 
         //div para colocar o titulo e categoria
         const itemTitulo = document.createElement('div');
