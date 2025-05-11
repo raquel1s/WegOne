@@ -76,7 +76,6 @@ filtragem.addEventListener('change', async (event) => {
     }else if(resultado.length === 0){
         mensagemErro.textContent = 'Categoria não Encontrada!';
         mensagemErro.classList.remove('hidden');
-
     }else{
         await carregarLista(resultado);
     }
@@ -233,9 +232,7 @@ async function buscarOperacoes(){
         console.log("Operações recebidas: ", operacoes);
         return operacoes;
     } catch (error){
-        const mensagemErro = document.createElement('p');
-        mensagemErro.textContent = error.message;
-        console.log("Erro em buscarOperacoes: ", error);
+        console.log("Erro em buscarOperacoes: ", error.message);
         return [];
     }
 }
@@ -247,10 +244,11 @@ async function buscarOperacaoPorNome(titulo){
         if(!resposta.ok) throw new Error("Erro ao encontrar a operação!");
 
         const operacao = await resposta.json();
+        console.log(operacao);
         return operacao;
     }catch (error){
-        const mensagemErro = document.createElement('p');
-        mensagemErro.textContent = error.message;
+        console.log("Erro em buscarOperacaoPorNome: ", error.message);
+        return [];
     }
 }
 
@@ -264,8 +262,8 @@ async function buscarOperacaoPorCategoria(categoria){
         console.log(operacao);
         return operacao;
     }catch (error){
-        const mensagemErro = document.createElement('p');
-        mensagemErro.textContent = error.message;
+        console.log("Erro em buscarOperacaoPorCategoria: ", error.message);
+        return [];
     }
 }
 
@@ -276,17 +274,16 @@ async function buscarOperacaoPorId(id){
         if(!resposta.ok) throw new Error("Erro ao encontrar a operação!");
 
         const operacao = await resposta.json();
+        console.log(operacao);
         return operacao;
     }catch (error){
-        const mensagemErro = document.createElement('p');
-        mensagemErro.textContent = error.message;
+        console.log("Erro em buscarOperacaoPorId: ", error);
+        return [];
     }
 }
 
 // vou ter que separar o put do post, e chamar os dados para a tela de editar
 async function salvarOperacao(operacao, metodo){
-
-    const mensagem = document.createElement('p');
 
     const endpoint = metodo === 'PUT' ? `${url}/${operacao.id}` : url;
 
@@ -302,18 +299,15 @@ async function salvarOperacao(operacao, metodo){
         if(!resposta.ok) throw new Error("Erro ao salvar a operação!");
 
         const operacaoSalva = await resposta.json(); // pega a resposta do backend
-        mensagem.textContent = 'Operação salva com sucesso!';
+        console.log('Operação salva com sucesso');
         return operacaoSalva;
 
     }catch (error){
-        mensagem.textContent = error.message;
-        console.error(error.message);
+        console.error('Erro em salvarOperacao' + error.message);
     }
 }
 
 async function excluirOperacao(operacaoId){
-
-    const mensagem = document.createElement('p');
 
     try{
         const resposta = await fetch(`${url}/${operacaoId}`, {
@@ -325,9 +319,9 @@ async function excluirOperacao(operacaoId){
 
         if(!resposta.ok) throw new Error("Erro ao excluir a operação!");
 
-        mensagem.textContent = 'Operação excluida com sucesso!';
+        console.log('Operação excluida com sucesso!');
 
     }catch (error){
-        mensagem.textContent = error.message;
+        console.error('Erro em excluirOperacao' + error.message);
     }
 }
