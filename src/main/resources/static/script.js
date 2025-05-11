@@ -50,6 +50,13 @@ buscar.addEventListener('keyup', async (event) => {
             await carregarLista(Array.isArray(operacaoPesquisada) ? operacaoPesquisada : [operacaoPesquisada]);
         }
 
+        // Botão Voltar
+        const botaoVoltar = document.getElementById('botaoVoltar');
+        botaoVoltar.classList.remove('hidden');
+
+        botaoVoltar.addEventListener('click', () => {
+            window.location.href = 'listaOperacoes.html';
+        })
     }
 });
 
