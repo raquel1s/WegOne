@@ -24,7 +24,7 @@ const botaoVoltar = document.getElementById('botaoVoltar');
 
 const mensagemErro = document.getElementById('mensagemErro');
 
-async function atualizarLista(){
+async function atualizarLista() {
     filtragem.value = 'todos';
     botaoVoltar.classList.add('hidden');
     mensagemErro.classList.add('hidden');
@@ -40,9 +40,9 @@ buscar.addEventListener('keyup', async (event) => {
 
         let operacaoPesquisada;
 
-        if(!isNaN(itemPesquisado)){
+        if (!isNaN(itemPesquisado)) {
             operacaoPesquisada = await buscarOperacaoPorId(itemPesquisado);
-        }else{
+        } else {
             operacaoPesquisada = await buscarOperacaoPorNome(itemPesquisado);
         }
 
@@ -52,10 +52,10 @@ buscar.addEventListener('keyup', async (event) => {
         mensagemErro.textContent = '';
         mensagemErro.classList.add('hidden');
 
-        if(!operacaoPesquisada || (Array.isArray(operacaoPesquisada) && operacaoPesquisada.length === 0)){
+        if (!operacaoPesquisada || (Array.isArray(operacaoPesquisada) && operacaoPesquisada.length === 0)) {
             mensagemErro.textContent = 'Operação não Encontrada!';
             mensagemErro.classList.remove('hidden');
-        }else{
+        } else {
             await carregarLista(Array.isArray(operacaoPesquisada) ? operacaoPesquisada : [operacaoPesquisada]);
         }
 
@@ -73,17 +73,17 @@ filtragem.addEventListener('change', async (event) => {
     mensagemErro.classList.add('hidden');
     botaoVoltar.classList.add('hidden');
 
-    if(filtragem.value === 'todos'){
+    if (filtragem.value === 'todos') {
         await atualizarLista();
-    }else if(resultado.length === 0){
+    } else if (resultado.length === 0) {
         mensagemErro.textContent = 'Categoria não Encontrada!';
         mensagemErro.classList.remove('hidden');
-    }else{
+    } else {
         await carregarLista(resultado);
     }
 })
 
-botaoVoltar.addEventListener('click', async() => {
+botaoVoltar.addEventListener('click', async () => {
     await atualizarLista();
 })
 
@@ -94,7 +94,7 @@ adicionar.addEventListener('click', () => {
     titulo.textContent = "CADASTRAR";
 })
 
-formulario.addEventListener('submit', async(e) => {
+formulario.addEventListener('submit', async (e) => {
     e.preventDefault();
     sobreposicao.classList.add('hidden');
 
@@ -111,12 +111,24 @@ formulario.addEventListener('submit', async(e) => {
 
     const metodo = modoEdicao ? 'PUT' : 'POST';
 
-    await salvarOperacao(operacao, metodo);
-    modoEdicao = false;
-    formulario.reset();
-    formulario.removeAttribute('data-operacao-id');
+    try {
+        await salvarOperacao(operacao, metodo);
+        formulario.reset();
+        formulario.removeAttribute('data-operacao-id');
 
-    await atualizarLista();
+        await atualizarLista();
+
+        mostrarMensagem(
+            modoEdicao ? 'Operação editada com sucesso!' : 'Operação cadastrada com sucesso!',
+            modoEdicao ? 'info' : 'success'
+        );
+
+        modoEdicao = false;
+    } catch (error) {
+        mostrarMensagem('Erro ao salvar operação', 'error');
+        console.error("Erro ao salvar: ", error);
+        formulario.reset();
+    }
 })
 
 // fechar painel-cadastrar
@@ -125,7 +137,7 @@ document.getElementById('fecharPainel').addEventListener('click', () => {
     formulario.reset();
 });
 
-async function carregarLista(operacoes){
+async function carregarLista(operacoes) {
     operacoes.forEach(operacao => {
         //div para cada item da lista
         const itemLista = document.createElement('div');
@@ -213,6 +225,7 @@ botaoExluir.addEventListener('click', async () => {
     const operacaoId = botaoExluir.dataset.operacaoId;
     await excluirOperacao(operacaoId);
     await atualizarLista();
+    mostrarMensagem('Operação excluída com sucesso!', 'success');
     sobreposicaoExcluir.classList.add('hidden');
 });
 
@@ -225,72 +238,72 @@ window.addEventListener('load', async () => {
     await carregarLista(operacoes);
 })
 
-async function buscarOperacoes(){
+async function buscarOperacoes() {
     try {
         const resposta = await fetch(url);
 
-        if(!resposta.ok) throw new Error("Erro ao encontrar as operações!"+ resposta.status);
+        if (!resposta.ok) throw new Error("Erro ao encontrar as operações!" + resposta.status);
 
         const operacoes = await resposta.json();
         console.log("Operações recebidas: ", operacoes);
         return operacoes;
-    } catch (error){
+    } catch (error) {
         console.log("Erro em buscarOperacoes: ", error.message);
         return [];
     }
 }
 
-async function buscarOperacaoPorNome(titulo){
-    try{
+async function buscarOperacaoPorNome(titulo) {
+    try {
         const resposta = await fetch(`${url}/titulo/${titulo}`);
 
-        if(!resposta.ok) throw new Error("Erro ao encontrar a operação!");
+        if (!resposta.ok) throw new Error("Erro ao encontrar a operação!");
 
         const operacao = await resposta.json();
         console.log(operacao);
         return operacao;
-    }catch (error){
+    } catch (error) {
         console.log("Erro em buscarOperacaoPorNome: ", error.message);
         return [];
     }
 }
 
-async function buscarOperacaoPorCategoria(categoria){
-    try{
+async function buscarOperacaoPorCategoria(categoria) {
+    try {
         const resposta = await fetch(`${url}/categoria/${categoria}`);
 
-        if(!resposta.ok) throw new Error("Erro ao encontrar a operação!");
+        if (!resposta.ok) throw new Error("Erro ao encontrar a operação!");
 
         const operacao = await resposta.json();
         console.log(operacao);
         return operacao;
-    }catch (error){
+    } catch (error) {
         console.log("Erro em buscarOperacaoPorCategoria: ", error.message);
         return [];
     }
 }
 
-async function buscarOperacaoPorId(id){
-    try{
+async function buscarOperacaoPorId(id) {
+    try {
         const resposta = await fetch(`${url}/${id}`);
 
-        if(!resposta.ok) throw new Error("Erro ao encontrar a operação!");
+        if (!resposta.ok) throw new Error("Erro ao encontrar a operação!");
 
         const operacao = await resposta.json();
         console.log(operacao);
         return operacao;
-    }catch (error){
+    } catch (error) {
         console.log("Erro em buscarOperacaoPorId: ", error);
         return [];
     }
 }
 
 // vou ter que separar o put do post, e chamar os dados para a tela de editar
-async function salvarOperacao(operacao, metodo){
+async function salvarOperacao(operacao, metodo) {
 
     const endpoint = metodo === 'PUT' ? `${url}/${operacao.id}` : url;
 
-    try{
+    try {
         const resposta = await fetch(endpoint, {
             method: metodo, // se clicar no adicionar vai enviar POST se for no editar vai enviar PUT
             headers: {
@@ -299,20 +312,24 @@ async function salvarOperacao(operacao, metodo){
             body: JSON.stringify(operacao)
         });
 
-        if(!resposta.ok) throw new Error("Erro ao salvar a operação!");
+        if (!resposta.ok) {
+            const erro = await resposta.text();
+            throw new Error(erro || "Erro ao salvar a operação!");
+        }
 
         const operacaoSalva = await resposta.json(); // pega a resposta do backend
         console.log('Operação salva com sucesso');
         return operacaoSalva;
 
-    }catch (error){
-        console.error('Erro em salvarOperacao' + error.message);
+    } catch (error) {
+        console.error(error.message);
+        throw error;
     }
 }
 
-async function excluirOperacao(operacaoId){
+async function excluirOperacao(operacaoId) {
 
-    try{
+    try {
         const resposta = await fetch(`${url}/${operacaoId}`, {
             method: 'DELETE',
             headers: {
@@ -320,11 +337,47 @@ async function excluirOperacao(operacaoId){
             },
         });
 
-        if(!resposta.ok) throw new Error("Erro ao excluir a operação!");
+        if (!resposta.ok) throw new Error("Erro ao excluir a operação!");
 
         console.log('Operação excluida com sucesso!');
 
-    }catch (error){
+    } catch (error) {
         console.error('Erro em excluirOperacao' + error.message);
     }
+}
+
+function mostrarMensagem(mensagem, tipo = 'success') {
+    const divMensagem = document.getElementById('div-mensagem');
+
+    const cores = {
+        success: 'bg-green-100 text-green-800 border-green-300',
+        error: 'bg-red-100 text-red-800 border-red-300',
+        warning: 'bg-yellow-100 text-yellow-800 border-yellow-300',
+        info: 'bg-blue-100 text-blue-800 border-blue-300',
+    };
+
+    const icones = {
+        success: '✅',
+        error: '💣',
+        warning: '⚠️',
+        info: 'ℹ️'
+    }
+
+    const toast = document.createElement('div');
+    toast.className = `w-92 border-l-4 px-4 py-3 rounded shadow flex items-start space-x-3 ${cores[tipo]} slide-in`;
+    toast.innerHTML = `
+        <div class="text-xl">${icones[tipo]}</div>
+        <div>
+            <p class="font-semibold">${tipo.charAt(0).toUpperCase() + tipo.slice(1)}:</p>
+            <p class="text-sm">${mensagem}</p>
+        </div>
+    `;
+
+    divMensagem.appendChild(toast);
+
+    setTimeout(() => {
+        toast.classList.remove('slide-in');
+        toast.classList.add('slide-out');
+        setTimeout(() => toast.remove(), 400);
+    }, 3000);
 }
