@@ -141,26 +141,36 @@ async function carregarLista(operacoes) {
     operacoes.forEach(operacao => {
         //div para cada item da lista
         const itemLista = document.createElement('div');
-        itemLista.classList.add('flex', 'flex-row', 'justify-between', 'items-center', 'pb-2', 'shadow-md', 'px-10', 'pt-3');
+        itemLista.classList.add('flex', 'flex-row', 'justify-between', 'gap-10', 'items-center', 'pb-2', 'shadow-md', 'px-10', 'pt-3');
 
         //div para colocar o titulo e categoria
         const itemTitulo = document.createElement('div');
 
-        const categoriaElemento = document.createElement('h2');
+        const categoriaElemento = document.createElement('h3');
         categoriaElemento.classList.add('text-lg', 'font-bold');
-
-        const tituloElemento = document.createElement('h3');
-        tituloElemento.classList.add('text-base');
-
         categoriaElemento.textContent = operacao.categoria;
         categoriaElemento.style.color = '#0090C5';
 
+        const tituloElemento = document.createElement('h4');
+        tituloElemento.classList.add('text-base');
         tituloElemento.textContent = operacao.titulo;
+
+        const idElemento = document.createElement('h2');
+        idElemento.classList.add('text-3xl', 'font-bold');
+        idElemento.textContent = operacao.id;
+        idElemento.style.color = '#00579D';
 
         itemTitulo.appendChild(categoriaElemento);
         itemTitulo.appendChild(tituloElemento);
 
-        itemLista.appendChild(itemTitulo);
+        // div para colocar o itemTitulo e id
+        const itemDetalhes = document.createElement('div');
+        itemDetalhes.classList.add('flex', 'flex-row', 'gap-10', 'items-center');
+
+        itemDetalhes.appendChild(idElemento);
+        itemDetalhes.appendChild(itemTitulo);
+
+        itemLista.appendChild(itemDetalhes);
 
         //div para colocar os icones
         const icones = document.createElement('div');
@@ -168,7 +178,7 @@ async function carregarLista(operacoes) {
         icones.classList.add('flex', 'flex-row', 'gap-6');
 
         const mostrar = document.createElement('a');
-        mostrar.innerHTML = '<i class="fa-solid fa-maximize cursor-pointer" style="font-size: 1.6em"></i>';
+        mostrar.innerHTML = '<i class="fa-solid fa-maximize cursor-pointer" style="font-size: 1.6em; position: relative"></i>';
 
         const editar = document.createElement('a');
         editar.innerHTML = '<i class="fa-solid fa-pen cursor-pointer" style="font-size: 1.6em"></i>';
